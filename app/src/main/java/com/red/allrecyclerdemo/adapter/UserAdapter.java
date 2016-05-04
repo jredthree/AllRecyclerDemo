@@ -1,10 +1,10 @@
 package com.red.allrecyclerdemo.adapter;
 
-import android.content.Context;
-
 import com.red.allrecyclerdemo.BR;
 import com.red.allrecyclerdemo.R;
 import com.red.allrecyclerdemo.models.User;
+import com.red.databindingadapterhelp.adapter.RecyclerBaseAdapter;
+import com.red.databindingadapterhelp.adapter.RecyclerViewHolder;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ import java.util.List;
  */
 public class UserAdapter extends RecyclerBaseAdapter<User> {
 
-    public UserAdapter(List<User> mData, Context mContext) {
-        super(mData, mContext);
+    public UserAdapter(List<User> mData) {
+        super(mData);
     }
 
     @Override
