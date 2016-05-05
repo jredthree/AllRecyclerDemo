@@ -29,5 +29,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile project(':databindingadapterhelp')
+    compile 'com.jredthree:databindingadapterhelp:1.0.1'
 }

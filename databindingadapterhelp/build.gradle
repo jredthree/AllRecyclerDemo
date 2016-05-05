@@ -6,7 +6,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        minSdkVersion 18
+        minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -33,7 +33,7 @@ publish {
     userOrg = 'jredthree'//bintray.com用户名
     groupId = 'com.jredthree'//jcenter上的路径
     artifactId = 'databindingadapterhelp'//项目名称
-    publishVersion = '1.0.0'//版本号
+    publishVersion = '1.0.1'//版本号
     desc = 'databinding adapter help'//描述，不重要
     website = 'http://jredthree.github.io/'//网站，不重要
 }
