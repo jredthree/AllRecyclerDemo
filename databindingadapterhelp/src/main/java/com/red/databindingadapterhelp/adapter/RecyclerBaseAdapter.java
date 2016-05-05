@@ -219,7 +219,14 @@ public abstract class RecyclerBaseAdapter<T> extends RecyclerView.Adapter<Recycl
         mData.add(pos, item);
         notifyDataSetChanged();
     }
-
+    /**
+     * add bodyer data list
+     * @param items content
+     */
+    public void addBodyerList(List<T> items){
+        mData.addAll(items);
+        notifyDataSetChanged();
+    }
     /**
      * remove bodyer data
      * @param pos position
@@ -228,7 +235,23 @@ public abstract class RecyclerBaseAdapter<T> extends RecyclerView.Adapter<Recycl
         mData.remove(pos);
         notifyDataSetChanged();
     }
+    /**
+     * set bodyer data list
+     * @param items content
+     */
+    public void setBodyerListData(List<T> items){
+        clearData();
+        mData.addAll(items);
+        notifyDataSetChanged();
+    }
 
+    /**
+     * clear bodyer all data
+     */
+    public void clearData(){
+        mData.clear();
+        notifyDataSetChanged();
+    }
     /**
      * bodyer data
      * @param pos position
