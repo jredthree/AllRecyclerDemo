@@ -6,12 +6,16 @@
 * 增加头部，增加尾部的功能
 * 随意增加删减头尾部的视图
 
-***
-
-####引用:
-* compile 'com.jredthree:databindingadapterhelp:1.0.1'
 
 ***
+
+####引用最新:
+* compile 'com.jredthree:databindingadapterhelp:1.0.4'
+
+***
+
+####新增功能：
+* 支持多种布局
 
 ####eg:
 
