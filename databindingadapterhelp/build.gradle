@@ -17,8 +17,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
     dataBinding {
         enabled true
+    }
+
+    lintOptions {
+        abortOnError false
     }
 }
 
@@ -33,7 +38,7 @@ publish {
     userOrg = 'jredthree'//bintray.com用户名
     groupId = 'com.jredthree'//jcenter上的路径
     artifactId = 'databindingadapterhelp'//项目名称
-    publishVersion = '1.0.3'//版本号
+    publishVersion = '1.0.4'//版本号
     desc = 'databinding adapter help'//描述，不重要
     website = 'http://jredthree.github.io/'//网站，不重要
 }

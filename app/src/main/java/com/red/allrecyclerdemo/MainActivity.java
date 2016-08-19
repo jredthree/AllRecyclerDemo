@@ -59,12 +59,22 @@ public class MainActivity extends AppCompatActivity implements RecyclerBaseAdapt
             }
         });
 
+        mAdapter.setMyItemClickListener(new RecyclerBaseAdapter.MyItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Log.d("TAG","---"+position);
+            }
+        });
+
     }
 
     private void setData(){
 
         for(int i = 0; i < 20; i++){
             User user = new User();
+            if(i==5){
+                user.setTitle("标题");
+            }
             user.setAvatar("http://g.hiphotos.baidu.com/image/h%3D200/sign=4d3fabc3cbfc1e17e2bf8b317a91f67c/6c224f4a20a446230761b9b79c22720e0df3d7bf.jpg");
             user.setName("小米" + i);
             user.setAge(String.valueOf(i));
@@ -74,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerBaseAdapt
 
     @Override
     public void headerClick(View view, int position) {
-        Log.d("TAG","****"+position);
         switch (position){
             case 0:
                 Toast.makeText(this,"我是头部"+position,Toast.LENGTH_SHORT).show();
@@ -87,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerBaseAdapt
 
     @Override
     public void footerClick(View view, int position) {
-        Log.d("TAG", "****" + position);
         switch (position){
             case 0:
                 Toast.makeText(this,"我是尾部"+position,Toast.LENGTH_SHORT).show();

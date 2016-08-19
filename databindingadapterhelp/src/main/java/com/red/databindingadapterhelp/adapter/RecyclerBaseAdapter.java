@@ -31,7 +31,7 @@ public abstract class RecyclerBaseAdapter<T> extends RecyclerView.Adapter<Recycl
     private final int VIEW_HEADER = 0X20;
 
     //bodyer type
-    private final int VIEW_BODYER = 0X21;
+    private final int VIEW_BODYER = 0X00;
 
     //footer type
     private final int VIEW_FOOTER = 0X22;
@@ -96,14 +96,6 @@ public abstract class RecyclerBaseAdapter<T> extends RecyclerView.Adapter<Recycl
                     false);
             headerCount++;
 
-        }else if(viewType == VIEW_BODYER){
-
-            binding = DataBindingUtil.inflate(
-                    LayoutInflater.from(parent.getContext()),
-                    getItemLayoutId(viewType),
-                    parent,
-                    false);
-
         }else if(null != footViews && viewType == VIEW_FOOTER && getFooterVisible()) {
 
             binding = DataBindingUtil.inflate(
@@ -112,6 +104,14 @@ public abstract class RecyclerBaseAdapter<T> extends RecyclerView.Adapter<Recycl
                     parent,
                     false);
             footerCount++;
+        }else{
+
+            binding = DataBindingUtil.inflate(
+                    LayoutInflater.from(parent.getContext()),
+                    getItemLayoutId(viewType),
+                    parent,
+                    false);
+
         }
 
         RecyclerViewHolder holder = new RecyclerViewHolder(binding.getRoot());
@@ -136,38 +136,36 @@ public abstract class RecyclerBaseAdapter<T> extends RecyclerView.Adapter<Recycl
 
                 break;
 
-            case VIEW_BODYER:
+            case VIEW_FOOTER:
+                bindData(recyclerViewHolder,footViews.get(getFooterPosition(recyclerViewHolder)).getVariableId(),footViews.get(getFooterPosition(recyclerViewHolder)).getData());
+                holder.itemView.setOnClickListener(getFooterClickListener(recyclerViewHolder.itemView,getFooterPosition(recyclerViewHolder)));
+
+                break;
+            default:
                 recyclerViewHolder.itemView.setOnClickListener(getClickListener(recyclerViewHolder.itemView,getRealPosition(holder)));
 
                 recyclerViewHolder.itemView.setOnLongClickListener(getLongClickListener(recyclerViewHolder.itemView,getRealPosition(holder)));
 
                 switch (mMode){
                     case TYPE_NORMAL:
-                        bindData(recyclerViewHolder,getVariableId(),mData.get(getRealPosition(recyclerViewHolder)));
+                        bindData(recyclerViewHolder,getVariableId(getItemViewType(position)),mData.get(getRealPosition(recyclerViewHolder)));
                         break;
                     case TYPE_CUSTOM:
-                        bindData(recyclerViewHolder,getVariableId(),mData.get(getRealPosition(recyclerViewHolder)));
+                        bindData(recyclerViewHolder,getVariableId(getItemViewType(position)),mData.get(getRealPosition(recyclerViewHolder)));
                         bindCustomData(recyclerViewHolder,position,mData.get(getRealPosition(recyclerViewHolder)));
                         break;
                 }
-
-                break;
-
-            case VIEW_FOOTER:
-                bindData(recyclerViewHolder,footViews.get(getFooterPosition(recyclerViewHolder)).getVariableId(),footViews.get(getFooterPosition(recyclerViewHolder)).getData());
-                holder.itemView.setOnClickListener(getFooterClickListener(recyclerViewHolder.itemView,getFooterPosition(recyclerViewHolder)));
-
                 break;
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (null == headViews) return VIEW_BODYER;
+        if (null == headViews) return getItemTypePosition(position);
 
         if (position < headViews.size()) return VIEW_HEADER;
 
-        if (position < (getRealListSize() + headViews.size())) return VIEW_BODYER;
+        if (position < (getRealListSize() + headViews.size())) return getItemTypePosition(position - headViews.size());
 
         if (null != footViews && position < getItemCount()) return VIEW_FOOTER;
 
@@ -349,7 +347,7 @@ public abstract class RecyclerBaseAdapter<T> extends RecyclerView.Adapter<Recycl
 
     private View.OnClickListener getClickListener(final View view, final int pos){
 
-        View.OnClickListener onClickListener =  new View.OnClickListener() {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if( null != myItemClickListener) {
@@ -357,11 +355,10 @@ public abstract class RecyclerBaseAdapter<T> extends RecyclerView.Adapter<Recycl
                 }
             }
         };
-        return onClickListener;
     }
 
     private View.OnLongClickListener getLongClickListener(final View view, final int pos){
-        View.OnLongClickListener onLongClickListener = new View.OnLongClickListener() {
+        return new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 if( null != myItemLongClickListener) {
@@ -370,12 +367,11 @@ public abstract class RecyclerBaseAdapter<T> extends RecyclerView.Adapter<Recycl
                 return true;
             }
         };
-        return onLongClickListener;
     }
 
     private View.OnClickListener getHeaderClickListener(final View view, final int pos){
 
-        View.OnClickListener onClickListener =  new View.OnClickListener() {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != headerClickListener) {
@@ -383,12 +379,11 @@ public abstract class RecyclerBaseAdapter<T> extends RecyclerView.Adapter<Recycl
                 }
             }
         };
-        return onClickListener;
     }
 
     private View.OnClickListener getFooterClickListener(final View view, final int pos){
 
-        View.OnClickListener onClickListener =  new View.OnClickListener() {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != footerClickListener) {
@@ -396,7 +391,6 @@ public abstract class RecyclerBaseAdapter<T> extends RecyclerView.Adapter<Recycl
                 }
             }
         };
-        return onClickListener;
     }
 
     @Override
@@ -452,7 +446,9 @@ public abstract class RecyclerBaseAdapter<T> extends RecyclerView.Adapter<Recycl
      * bind  reference
      * @return BR id
      */
-    abstract public int getVariableId();
+    abstract public int getVariableId(int viewType);
+
+    abstract public int getItemTypePosition(int position);
 
     private void bindData(RecyclerViewHolder holder,int variableId ,T item){
         holder.getBinding().setVariable(variableId, item);

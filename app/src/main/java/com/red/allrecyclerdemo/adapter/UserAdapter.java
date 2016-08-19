@@ -19,12 +19,34 @@ public class UserAdapter extends RecyclerBaseAdapter<User> {
 
     @Override
     public int getItemLayoutId(int viewType) {
-        return R.layout.main_item;
+        switch (viewType){
+            case 1:
+                return R.layout.main_item;
+            case 2:
+                return R.layout.main_item2;
+            default:
+                return R.layout.main_item;
+        }
+
+
     }
 
     @Override
-    public int getVariableId() {
-        return BR.users;
+    public int getVariableId(int viewType) {
+        switch (viewType){
+            case 1:
+                return BR.users;
+            case 2:
+                return BR.titles;
+            default:
+                return BR.users;
+        }
+
+    }
+
+    @Override
+    public int getItemTypePosition(int position) {
+        return mData.get(position).getTitle() == null ? 1 : 2;
     }
 
     @Override

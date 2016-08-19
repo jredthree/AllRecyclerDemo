@@ -9,6 +9,8 @@ public class User {
     private String avatar;
     private String age;
 
+    private String title;
+
     public User(){
 
     }
@@ -19,6 +21,14 @@ public class User {
         this.age = age;
     }
 
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public String getAvatar() {
         return avatar;
